@@ -2,19 +2,23 @@ package main
 
 import (
 	"github.com/kataras/iris/v12"
-	"io"
 	"iptv-checker/internal/app/controllers"
 	"iptv-checker/internal/app/models/database"
-	"iptv-checker/pkg/utils"
-	"os"
+	"iptv-checker/pkg/log"
+	trace "iptv-checker/pkg/middleware"
 )
 
 func main() {
-	// 初始化日志
-	logFile := utils.NewLogFile()
+
+	//app := iris.New()
+
+	//ctx := context.Background()
 
 	app := iris.New()
-	app.Logger().SetOutput(io.MultiWriter(logFile, os.Stdout))
+	app.Use(trace.Inject)
+
+	// 初始化自定义日志记录器
+	log.InitLogger()
 
 	// 初始化数据库
 	database.DatabaseInit()
@@ -26,10 +30,10 @@ func main() {
 		ctx.View("test.html")
 	})
 
-	app.Get("/user/{id:uint64}", func(ctx iris.Context) {
-		userID, _ := ctx.Params().GetUint64("id")
-		ctx.Writef("User ID: %d", userID)
-	})
+	//app.Get("/user/{id:uint64}", func(ctx iris.Context) {
+	//	userID, _ := ctx.Params().GetUint64("id")
+	//	ctx.Writef("User ID: %d", userID)
+	//})
 
 	app.Get("/", controllers.GetUserSource)
 
@@ -37,9 +41,5 @@ func main() {
 		panic(err)
 	}
 
-}
-
-func myMiddleware(ctx iris.Context) {
-	ctx.Application().Logger().Infof("Runs before %s", ctx.Path())
-	ctx.Next()
+	log.Logger.Info("server is shutdown")
 }

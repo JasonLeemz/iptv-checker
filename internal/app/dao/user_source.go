@@ -5,6 +5,7 @@ import (
 	"iptv-checker/internal/app/dto"
 	"iptv-checker/internal/app/models"
 	"iptv-checker/internal/app/models/database"
+	"iptv-checker/pkg/log"
 )
 
 type UserSource interface {
@@ -40,9 +41,7 @@ func (dao *UserSourceDAO) Select(cond map[string]interface{}) []*models.UserSour
 func (dao *UserSourceDAO) ListUserSource(cond map[string]interface{}) ([]*dto.UserSourceDTO, error) {
 
 	usDTO := make([]*dto.UserSourceDTO, 0)
-	//u := models.User{}
-	//dao.db.Table("user").Find(&u)
-	//fmt.Println(u)
+
 	rows, err := dao.db.Table("user").
 		Select("user.user_id, user.nick_name, " +
 			"live_source.name as source_name, " +
@@ -55,7 +54,8 @@ func (dao *UserSourceDAO) ListUserSource(cond map[string]interface{}) ([]*dto.Us
 		Joins("left join live_source on live_source.id = user_source.source_id").
 		Rows()
 	if err != nil {
-
+		log.Logger.Error(err)
+		return nil, err
 	}
 
 	for rows.Next() {
@@ -66,7 +66,6 @@ func (dao *UserSourceDAO) ListUserSource(cond map[string]interface{}) ([]*dto.Us
 		}
 		usDTO = append(usDTO, &t)
 	}
-	// SELECT users.name, emails.email FROM `users` left join emails on emails.user_id = users.id
 
 	return usDTO, nil
 
