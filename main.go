@@ -10,30 +10,13 @@ import (
 
 func main() {
 
-	//app := iris.New()
-
-	//ctx := context.Background()
-
 	app := iris.New()
 	app.Use(trace.Inject)
 
-	// 初始化自定义日志记录器
-	log.InitLogger()
-
-	// 初始化数据库
-	database.DatabaseInit()
+	initComponents()
 
 	app.RegisterView(iris.HTML("./web/templates", ".html"))
 	app.HandleDir("/static", "./web/static")
-	app.Get("/test", func(ctx iris.Context) {
-		ctx.ViewData("message", "Hello world!")
-		ctx.View("test.html")
-	})
-
-	//app.Get("/user/{id:uint64}", func(ctx iris.Context) {
-	//	userID, _ := ctx.Params().GetUint64("id")
-	//	ctx.Writef("User ID: %d", userID)
-	//})
 
 	app.Get("/", controllers.GetUserSource)
 
@@ -42,4 +25,12 @@ func main() {
 	}
 
 	log.Logger.Info("server is shutdown")
+}
+
+func initComponents() {
+	// 初始化日志记录器
+	log.InitLogger()
+
+	// 初始化数据库
+	database.DatabaseInit()
 }

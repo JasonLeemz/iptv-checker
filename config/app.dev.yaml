@@ -1,0 +1,12 @@
+app:
+  port: 8888
+
+log:
+  path: logs/iptv-checker.log
+  log_level: info
+
+database:
+  host: localhost
+  port: 5432
+  username: myuser
+  password: mypassword

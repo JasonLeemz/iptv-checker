@@ -1,20 +1,24 @@
 package controllers
 
 import (
-	"github.com/kataras/iris/v12"
 	"iptv-checker/internal/app/dao"
 	"iptv-checker/internal/app/services"
+	"iptv-checker/pkg/context"
+	"iptv-checker/pkg/errors"
 )
 
-func GetUserSource(ctx iris.Context) {
+func GetUserSource(ctx ctx.Context) {
 	// 创建 DAO 和 Service 实例
 	usDAO := dao.NewUserSourceDAO()
 	usService := services.NewUserSourceService(usDAO)
 
 	// 使用 Service 获取用户信息
 	userID := int64(5639017)
-	usDTO, _ := usService.GetUserSource(userID)
+	usDTO, err := usService.GetUserSource(userID)
 
-	ctx.JSON(usDTO)
+	ctx.Reply(0, usDTO, errors.GenErr(0, err))
+	//ctx.ViewData("message", usDTO)
+	//ctx.View("test.html")
+
 	//ctx.Writef("%v,%v", usDTO, err)
 }
