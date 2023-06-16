@@ -2,10 +2,10 @@ package dao
 
 import (
 	"gorm.io/gorm"
+	"iptv-checker/core/log"
 	"iptv-checker/internal/app/dto"
 	"iptv-checker/internal/app/models"
 	"iptv-checker/internal/app/models/database"
-	"iptv-checker/pkg/log"
 )
 
 type UserSource interface {

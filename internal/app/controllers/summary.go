@@ -1,11 +1,13 @@
 package controllers
 
 import (
+	"iptv-checker/core/context"
+	"iptv-checker/core/errors"
 	"iptv-checker/internal/app/dao"
 	"iptv-checker/internal/app/services"
-	"iptv-checker/pkg/context"
-	"iptv-checker/pkg/errors"
 )
+
+// ctx iris.Context
 
 func GetUserSource(ctx ctx.Context) {
 	// 创建 DAO 和 Service 实例
@@ -16,7 +18,7 @@ func GetUserSource(ctx ctx.Context) {
 	userID := int64(5639017)
 	usDTO, err := usService.GetUserSource(userID)
 
-	ctx.Reply(0, usDTO, errors.GenErr(0, err))
+	ctx.Reply(usDTO, errors.GenErr(err), errors.ErrNoSuccess)
 	//ctx.ViewData("message", usDTO)
 	//ctx.View("test.html")
 

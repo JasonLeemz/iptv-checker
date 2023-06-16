@@ -2,10 +2,12 @@ package main
 
 import (
 	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/context"
+	ctx "iptv-checker/core/context"
+	"iptv-checker/core/log"
+	trace "iptv-checker/core/middleware"
 	"iptv-checker/internal/app/controllers"
 	"iptv-checker/internal/app/models/database"
-	"iptv-checker/pkg/log"
-	trace "iptv-checker/pkg/middleware"
 )
 
 func main() {
@@ -18,7 +20,11 @@ func main() {
 	app.RegisterView(iris.HTML("./web/templates", ".html"))
 	app.HandleDir("/static", "./web/static")
 
-	app.Get("/", controllers.GetUserSource)
+	app.Get("/", func(context *context.Context) {
+		controllers.GetUserSource(ctx.Context{
+			Context: context,
+		})
+	})
 
 	if err := app.Listen(":8888"); err != nil {
 		panic(err)

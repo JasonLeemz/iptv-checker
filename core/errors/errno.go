@@ -2,106 +2,106 @@ package errors
 
 const (
 	// 未指定错误
-	errNoUnknown = -1
+	ErrNoUnknown = -1
 
 	// 成功
-	errNoSuccess = 0
+	ErrNoSuccess = 0
 
 	// 参数错误
-	errNoInvalidInput = 1001
-	errNoMissingField = 1002
-	errNoOutOfRange   = 1003
+	ErrNoInvalidInput = 1001
+	ErrNoMissingField = 1002
+	ErrNoOutOfRange   = 1003
 
 	// 认证和权限错误
-	errNoUnauthorized = 2001
-	errNoForbidden    = 2002
-	errNoExpiredToken = 2003
+	ErrNoUnauthorized = 2001
+	ErrNoForbidden    = 2002
+	ErrNoExpiredToken = 2003
 
 	// 资源错误
-	errNoNotFound               = 3001
-	errNoDuplicateEntry         = 3002
-	errNoInsufficientPermission = 3003
+	ErrNoNotFound               = 3001
+	ErrNoDuplicateEntry         = 3002
+	ErrNoInsufficientPermission = 3003
 
 	// 内部错误
-	errNoInternal      = 4001
-	errNoDatabaseError = 4002
-	errNoNetworkError  = 4003
+	ErrNoInternal      = 4001
+	ErrNoDatabaseError = 4002
+	ErrNoNetworkError  = 4003
 
 	// 请求错误
-	errNoBadRequest           = 5001
-	errNoMethodNotAllowed     = 5002
-	errNoUnsupportedMediaType = 5003
+	ErrNoBadRequest           = 5001
+	ErrNoMethodNotAllowed     = 5002
+	ErrNoUnsupportedMediaType = 5003
 
 	// 文件和上传错误
-	errNoFileTooLarge      = 6001
-	errNoInvalidFileFormat = 6002
-	errNoFileNotFound      = 6003
+	ErrNoFileTooLarge      = 6001
+	ErrNoInvalidFileFormat = 6002
+	ErrNoFileNotFound      = 6003
 
 	// 连接和通信错误
-	errNoConnectionRefused  = 7001
-	errNoConnectionTimeout  = 7002
-	errNoNetworkUnreachable = 7003
+	ErrNoConnectionRefused  = 7001
+	ErrNoConnectionTimeout  = 7002
+	ErrNoNetworkUnreachable = 7003
 
 	// 第三方服务错误
-	errNoExternalServiceUnavailable = 8001
-	errNoExternalServiceTimeout     = 8002
-	errNoExternalServiceError       = 8003
+	ErrNoExternalServiceUnavailable = 8001
+	ErrNoExternalServiceTimeout     = 8002
+	ErrNoExternalServiceError       = 8003
 
 	// 安全和加密错误
-	errNoEncryptionFailed = 9001
-	errNoDecryptionFailed = 9002
-	errNoInvalidSignature = 9003
+	ErrNoEncryptionFailed = 9001
+	ErrNoDecryptionFailed = 9002
+	ErrNoInvalidSignature = 9003
 )
 
 var errorMessages = map[int]string{
 	// 未指定错误
-	errNoUnknown: "Unknown Error",
+	ErrNoUnknown: "Unknown Error",
 
 	// 成功
-	errNoSuccess: "Success",
+	ErrNoSuccess: "Success",
 
 	// 参数错误
-	errNoInvalidInput: "Invalid input",
-	errNoMissingField: "Missing field",
-	errNoOutOfRange:   "Out of range",
+	ErrNoInvalidInput: "Invalid input",
+	ErrNoMissingField: "Missing field",
+	ErrNoOutOfRange:   "Out of range",
 
 	// 认证和权限错误
-	errNoUnauthorized: "Unauthorized",
-	errNoForbidden:    "Forbidden",
-	errNoExpiredToken: "Expired token",
+	ErrNoUnauthorized: "Unauthorized",
+	ErrNoForbidden:    "Forbidden",
+	ErrNoExpiredToken: "Expired token",
 
 	// 资源错误
-	errNoNotFound:               "Not found",
-	errNoDuplicateEntry:         "Duplicate entry",
-	errNoInsufficientPermission: "Insufficient permission",
+	ErrNoNotFound:               "Not found",
+	ErrNoDuplicateEntry:         "Duplicate entry",
+	ErrNoInsufficientPermission: "Insufficient permission",
 
 	// 内部错误
-	errNoInternal:      "Internal error",
-	errNoDatabaseError: "Database error",
-	errNoNetworkError:  "Network error",
+	ErrNoInternal:      "Internal error",
+	ErrNoDatabaseError: "Database error",
+	ErrNoNetworkError:  "Network error",
 
 	// 请求错误
-	errNoBadRequest:           "Bad request",
-	errNoMethodNotAllowed:     "Method not allowed",
-	errNoUnsupportedMediaType: "Unsupported media type",
+	ErrNoBadRequest:           "Bad request",
+	ErrNoMethodNotAllowed:     "Method not allowed",
+	ErrNoUnsupportedMediaType: "Unsupported media type",
 
 	// 文件和上传错误
-	errNoFileTooLarge:      "File too large",
-	errNoInvalidFileFormat: "Invalid file format",
-	errNoFileNotFound:      "File not found",
+	ErrNoFileTooLarge:      "File too large",
+	ErrNoInvalidFileFormat: "Invalid file format",
+	ErrNoFileNotFound:      "File not found",
 
 	// 连接和通信错误
-	errNoConnectionRefused:  "Connection refused",
-	errNoConnectionTimeout:  "Connection timeout",
-	errNoNetworkUnreachable: "Network unreachable",
+	ErrNoConnectionRefused:  "Connection refused",
+	ErrNoConnectionTimeout:  "Connection timeout",
+	ErrNoNetworkUnreachable: "Network unreachable",
 
 	// 第三方服务错误
-	errNoExternalServiceUnavailable: "External service unavailable",
-	errNoExternalServiceTimeout:     "External service timeout",
-	errNoExternalServiceError:       "External service error",
+	ErrNoExternalServiceUnavailable: "External service unavailable",
+	ErrNoExternalServiceTimeout:     "External service timeout",
+	ErrNoExternalServiceError:       "External service error",
 
 	// 安全和加密错误
-	errNoEncryptionFailed: "Encryption failed",
-	errNoDecryptionFailed: "Decryption failed",
-	errNoInvalidSignature: "Invalid signature",
+	ErrNoEncryptionFailed: "Encryption failed",
+	ErrNoDecryptionFailed: "Decryption failed",
+	ErrNoInvalidSignature: "Invalid signature",
 }

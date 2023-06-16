@@ -2,7 +2,7 @@ package errors
 
 import (
 	"encoding/json"
-	"iptv-checker/pkg/log"
+	"iptv-checker/core/log"
 )
 
 type Error struct {
@@ -53,8 +53,12 @@ type Impl interface {
 	SetError(msg string)
 }
 
-func GenErr(code int32, e error) *Error {
+func GenErr(e error, codes ...int32) *Error {
 	var err *Error
+	code := int32(0)
+	if len(codes) != 0 {
+		code = codes[0]
+	}
 
 	if code != 0 && e != nil {
 		err.SetErrNo(code)

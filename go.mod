@@ -9,9 +9,6 @@ require (
 	go.uber.org/zap v1.24.0
 	gorm.io/driver/mysql v1.5.1
 	gorm.io/gorm v1.25.1
-)
-
-require (
 	github.com/BurntSushi/toml v1.2.1 // indirect
 	github.com/CloudyKit/fastprinter v0.0.0-20200109182630-33d98a066a53 // indirect
 	github.com/CloudyKit/jet/v6 v6.2.0 // indirect

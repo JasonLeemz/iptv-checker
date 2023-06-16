@@ -3,7 +3,7 @@ package database
 import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"iptv-checker/pkg/log"
+	"iptv-checker/core/log"
 )
 
 var DB *gorm.DB

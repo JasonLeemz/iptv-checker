@@ -2,7 +2,8 @@ package ctx
 
 import (
 	"github.com/kataras/iris/v12"
-	"iptv-checker/pkg/errors"
+	"iptv-checker/core/errors"
+	"iptv-checker/core/log"
 )
 
 type Context struct {
@@ -16,15 +17,25 @@ type reply struct {
 }
 
 // Reply ...
-func (c *Context) Reply(code int32, obj interface{}, err *errors.Error) {
+func (c *Context) Reply(obj interface{}, err *errors.Error, codes ...int32) {
 	r := &reply{
 		Data: obj,
 	}
+
+	code := int32(0)
+	if len(codes) != 0 {
+		code = codes[0]
+		r.ErrNo = code
+	}
+
 	if err != nil {
 		r.Msg = err.Error()
 	} else {
 		r.Msg = errors.GetErrMsg(code)
 	}
 
-	c.JSON(r)
+	err2 := c.JSON(r)
+	if err2 != nil {
+		log.Logger.Error(err2)
+	}
 }
