@@ -6,15 +6,20 @@ import (
 	"iptv-checker/internal/app/services"
 )
 
-// ctx iris.Context
+type GetUserSourceReq struct {
+	UserID int64 `json:"user_id"`
+}
 
 func GetUserSource(ctx ctx.Context) {
+	var req GetUserSourceReq
+	if err := ctx.ReadJSON(&req); err != nil {
+		ctx.Reply(nil, errors.GenErr(err))
+		return
+	}
+
 	// Service 实例
 	usService := services.NewUserSourceService()
-
-	// 使用 Service 获取用户信息
-	userID := int64(5639017)
-	usDTO, err := usService.GetUserSource(userID)
+	usDTO, err := usService.GetUserSource(req.UserID)
 
 	ctx.Reply(usDTO, errors.GenErr(err), errors.ErrNoSuccess)
 	//ctx.ViewData("message", usDTO)

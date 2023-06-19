@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/context"
+	"iptv-checker/core/config"
 	ctx "iptv-checker/core/context"
 	"iptv-checker/core/log"
 	trace "iptv-checker/core/middleware"
@@ -41,7 +43,7 @@ func main() {
 		})
 	})
 
-	if err := app.Listen(":8888"); err != nil {
+	if err := app.Listen(":" + config.GlobalConfig.App.Port); err != nil {
 		panic(err)
 	}
 
@@ -49,6 +51,11 @@ func main() {
 }
 
 func initComponents() {
+	// 初始化配置
+	config.InitConfig()
+
+	fmt.Println(config.GlobalConfig)
+
 	// 初始化日志记录器
 	log.InitLogger()
 

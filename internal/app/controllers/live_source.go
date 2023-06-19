@@ -25,7 +25,6 @@ func AddSource(ctx ctx.Context) {
 	// 创建 Service 实例
 	usService := services.NewUserSourceService()
 
-	// 使用 Service 获取用户信息
 	var req AddSourceReq
 	if err := ctx.ReadJSON(&req); err != nil {
 		ctx.Reply(nil, errors.GenErr(err))
@@ -37,7 +36,6 @@ func AddSource(ctx ctx.Context) {
 }
 
 func DelSource(ctx ctx.Context) {
-	// 使用 Service 获取用户信息
 	var req DelSourceReq
 	if err := ctx.ReadJSON(&req); err != nil {
 		ctx.Reply(nil, errors.GenErr(err))

@@ -9,6 +9,7 @@ import (
 	"go.uber.org/zap/zapcore"
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/utils"
+	"iptv-checker/core/config"
 	"time"
 )
 
@@ -112,7 +113,7 @@ func InitLogger() {
 func getLogWriter() zapcore.WriteSyncer {
 	//定义日志文件名，设置权限，当日志文件不存在时创建文件
 	lumberJackLogger := &lumberjack.Logger{
-		Filename:   "./logs/iptv-checker.log",
+		Filename:   config.GlobalConfig.Log.Path,
 		MaxSize:    1,  // 切割大小
 		MaxBackups: 5,  // 保留最大数量
 		MaxAge:     30, // 保留最大天数
@@ -136,7 +137,7 @@ func getEncoder() zapcore.Encoder {
 func newZapLogger() {
 	writeSyncer := getLogWriter()
 	encoder := getEncoder()
-	core := zapcore.NewCore(encoder, writeSyncer, zapcore.DebugLevel)
+	core := zapcore.NewCore(encoder, writeSyncer, zapcore.Level(config.GlobalConfig.Log.LogLevel))
 	zapLogger := zap.New(core, zap.AddCaller())
 	Logger = zapLogger.Sugar()
 }

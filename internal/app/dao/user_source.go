@@ -97,6 +97,8 @@ func (dao *UserSourceDAO) ListUserSource(cond map[string]interface{}) ([]*dto.Us
 
 	rows, err := dao.db.Table("user").
 		Select("user.user_id, user.nick_name, " +
+			"user_source.id as user_source_id, " +
+			"live_source.id as live_source_id, " +
 			"live_source.name as source_name, " +
 			"live_source.source as source_url, " +
 			"live_source.data as source_data, " +
