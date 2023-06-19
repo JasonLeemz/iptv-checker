@@ -20,10 +20,25 @@ func main() {
 	initComponents()
 
 	app.RegisterView(iris.HTML("./web/templates", ".html"))
+
 	app.HandleDir("/static", "./web/static")
+	app.HandleDir("page", "./web/templates/page")
+	app.HandleDir("page/table", "./web/templates/page/table")
+	app.HandleDir("api", "./web/static/api")
+	app.HandleDir("css", "./web/static/css")
+	app.HandleDir("images", "./web/static/images")
+	app.HandleDir("js", "./web/static/js")
+	app.HandleDir("lib", "./web/static/lib")
+
+	// Index
+	app.Get("/", func(c *context.Context) {
+		controllers.Index(ctx.Context{
+			Context: c,
+		})
+	})
 
 	// 获取当前用户的播放源地址列表
-	app.Get("/", func(c *context.Context) {
+	app.Get("/get_user_source", func(c *context.Context) {
 		controllers.GetUserSource(ctx.Context{
 			Context: c,
 		})
