@@ -9,19 +9,43 @@ import (
 )
 
 type UserSource interface {
-	Add() (int32, error)
+	Add(models.UserSource) (int64, error, int64)
 	Delete() (int32, error)
 	Update() (int32, error)
 	Select() []*models.UserSource
+	Find(map[string]interface{}) []*models.UserSource
 }
 
 type UserSourceDAO struct {
 	db *gorm.DB
 }
 
-func (dao *UserSourceDAO) Add() (int32, error) {
-	//TODO implement me
-	panic("implement me")
+var tblUserSource = "user_source"
+
+func (dao *UserSourceDAO) Add(us models.UserSource) (int64, error, int64) {
+	result := dao.db.Table(tblUserSource).Create(&us)
+	return result.RowsAffected, result.Error, us.ID
+}
+
+// AddWithTX return tx,add rows error id
+func (dao *UserSourceDAO) AddWithTX(tx *gorm.DB, us models.UserSource) (*gorm.DB, int64, error, int64) {
+	// 开始事务
+	if tx == nil {
+		tx = dao.db.Begin()
+	}
+	defer func() {
+		if err := recover(); err != nil {
+			log.Logger.Error(err)
+			tx.Rollback()
+		}
+	}()
+
+	result := tx.Table(tblUserSource).Create(&us)
+	if result.Error != nil {
+		tx.Rollback()
+		return tx, 0, result.Error, 0
+	}
+	return tx, result.RowsAffected, nil, us.ID
 }
 
 func (dao *UserSourceDAO) Delete() (int32, error) {
@@ -29,13 +53,42 @@ func (dao *UserSourceDAO) Delete() (int32, error) {
 	panic("implement me")
 }
 
+// DeleteWithTX return tx,delete rows error
+func (dao *UserSourceDAO) DeleteWithTX(tx *gorm.DB, userSourceID []string) (*gorm.DB, int64, error) {
+	// 开始事务
+	if tx == nil {
+		tx = dao.db.Begin()
+	}
+	defer func() {
+		if err := recover(); err != nil {
+			log.Logger.Error(err)
+			tx.Rollback()
+		}
+	}()
+
+	result := tx.Table(tblUserSource).Where("id in ?", userSourceID).Delete(&models.UserSource{})
+	if result.Error != nil {
+		tx.Rollback()
+		return tx, 0, result.Error
+	}
+	return tx, result.RowsAffected, nil
+}
+
 func (dao *UserSourceDAO) Update() (int32, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (dao *UserSourceDAO) Select(cond map[string]interface{}) []*models.UserSource {
+func (dao *UserSourceDAO) Select() []*models.UserSource {
 	return nil
+}
+
+func (dao *UserSourceDAO) Find(cond map[string]interface{}) []*models.UserSource {
+	var us []*models.UserSource
+	if err := dao.db.Table(tblUserSource).Where(cond).Find(&us).Error; err != nil {
+		log.Logger.Error(err)
+	}
+	return us
 }
 
 func (dao *UserSourceDAO) ListUserSource(cond map[string]interface{}) ([]*dto.UserSourceDTO, error) {

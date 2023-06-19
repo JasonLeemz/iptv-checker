@@ -26,12 +26,12 @@ type GormLogger struct {
 }
 
 var (
-	infoStr      = "%s\n[info] "
-	warnStr      = "%s\n[warn] "
-	errStr       = "%s\n[error] "
-	traceStr     = "%s\n[%.3fms] [rows:%v] %s"
-	traceWarnStr = "%s %s\n[%.3fms] [rows:%v] %s"
-	traceErrStr  = "%s %s\n[%.3fms] [rows:%v] %s"
+	infoStr      = "%s\tINFO "
+	warnStr      = "%s\tWARN "
+	errStr       = "%s\tERROR "
+	traceStr     = "%s\t[%.3fms] [rows:%v] %s"
+	traceWarnStr = "%s %s\t[%.3fms] [rows:%v] %s"
+	traceErrStr  = "%s %s\t[%.3fms] [rows:%v] %s"
 )
 
 var Glogger *GormLogger

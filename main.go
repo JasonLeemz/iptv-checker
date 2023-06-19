@@ -20,9 +20,24 @@ func main() {
 	app.RegisterView(iris.HTML("./web/templates", ".html"))
 	app.HandleDir("/static", "./web/static")
 
-	app.Get("/", func(context *context.Context) {
+	// 获取当前用户的播放源地址列表
+	app.Get("/", func(c *context.Context) {
 		controllers.GetUserSource(ctx.Context{
-			Context: context,
+			Context: c,
+		})
+	})
+
+	// 录入一条播放源地址
+	app.Post("/add_source", func(c *context.Context) {
+		controllers.AddSource(ctx.Context{
+			Context: c,
+		})
+	})
+
+	// 删除一条播放源地址
+	app.Post("/del_source", func(c *context.Context) {
+		controllers.DelSource(ctx.Context{
+			Context: c,
 		})
 	})
 
