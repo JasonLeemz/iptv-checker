@@ -5,6 +5,7 @@ import (
 	"iptv-checker/internal/app/dao"
 	"iptv-checker/internal/app/dto"
 	"iptv-checker/internal/app/models"
+	"time"
 )
 
 type UserSourceService struct {
@@ -27,7 +28,30 @@ func (s *UserSourceService) GetUserSource(userID int64) ([]*dto.UserSourceDTO, e
 	cond := map[string]interface{}{
 		"user.user_id": userID,
 	}
-	return s.UserSourceDAO.ListUserSource(cond)
+	us, err := s.UserSourceDAO.ListUserSource(cond)
+
+	sourceID := make([]int64, 0)
+	for _, source := range us {
+		sourceID = append(sourceID, source.LiveSourceID)
+	}
+
+	ss := NewChannelSourceService()
+	channelMap := ss.QueryChannelSource(sourceID)
+
+	for _, source := range us {
+		channels := channelMap[source.LiveSourceID]
+		for _, channel := range channels {
+			source.SourceData = append(source.SourceData, dto.ChannelSource{
+				ChannelID:   channel.ID,
+				ChannelName: channel.Name,
+				ChannelUrl:  channel.Url,
+				Ctime:       channel.Ctime.Format(time.RFC3339),
+				Utime:       channel.Utime.Format(time.RFC3339),
+			})
+		}
+
+	}
+	return us, err
 }
 
 func (s *UserSourceService) AddSource(userID int64, sourceName, sourceUrl string) (int64, int64, error) {
@@ -63,15 +87,6 @@ func (s *UserSourceService) AddSource(userID int64, sourceName, sourceUrl string
 
 func (s *UserSourceService) DelSource(userSourceID, liveSourceID []string) error {
 	// 删除user_source
-	//udata := make([]models.UserSource, len(userSourceID))
-	//for _, sid := range userSourceID {
-	//	id, _ := strconv.Atoi(sid)
-	//	udata = append(udata, models.UserSource{
-	//		ID:     int64(id),
-	//		UserID: userID,
-	//	})
-	//}
-
 	tx, _, err := s.UserSourceDAO.DeleteWithTX(nil, userSourceID)
 	if err != nil {
 		log.Logger.Error(err)
@@ -79,13 +94,6 @@ func (s *UserSourceService) DelSource(userSourceID, liveSourceID []string) error
 	}
 
 	// 删除live_source
-	//ldata := make([]models.LiveSource, len(liveSourceID))
-	//for _, sid := range liveSourceID {
-	//	id, _ := strconv.Atoi(sid)
-	//	ldata = append(ldata, models.LiveSource{
-	//		ID: int64(id),
-	//	})
-	//}
 	_, _, err = s.LiveSourceDAO.DeleteWithTX(tx, liveSourceID)
 	if err != nil {
 		tx.Rollback()

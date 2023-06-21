@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/context"
 	"iptv-checker/core/config"
@@ -22,8 +21,9 @@ func main() {
 	app.RegisterView(iris.HTML("./web/templates", ".html"))
 
 	app.HandleDir("/static", "./web/static")
-	app.HandleDir("page", "./web/templates/page")
-	app.HandleDir("page/table", "./web/templates/page/table")
+	app.HandleDir("page", "./web/templates/demo")
+	app.HandleDir("iptv", "./web/templates/iptv")
+	app.HandleDir("page/table", "./web/templates/demo/table")
 	app.HandleDir("api", "./web/static/api")
 	app.HandleDir("css", "./web/static/css")
 	app.HandleDir("images", "./web/static/images")
@@ -31,8 +31,18 @@ func main() {
 	app.HandleDir("lib", "./web/static/lib")
 
 	// Index
+	app.Get("/demo", func(c *context.Context) {
+		controllers.Demo(ctx.Context{
+			Context: c,
+		})
+	})
 	app.Get("/", func(c *context.Context) {
 		controllers.Index(ctx.Context{
+			Context: c,
+		})
+	})
+	app.Get("/menu", func(c *context.Context) {
+		controllers.Menu(ctx.Context{
 			Context: c,
 		})
 	})
@@ -68,8 +78,6 @@ func main() {
 func initComponents() {
 	// 初始化配置
 	config.InitConfig()
-
-	fmt.Println(config.GlobalConfig)
 
 	// 初始化日志记录器
 	log.InitLogger()

@@ -101,7 +101,6 @@ func (dao *UserSourceDAO) ListUserSource(cond map[string]interface{}) ([]*dto.Us
 			"live_source.id as live_source_id, " +
 			"live_source.name as source_name, " +
 			"live_source.source as source_url, " +
-			"live_source.data as source_data, " +
 			"live_source.ctime, " +
 			"live_source.utime").
 		Where(cond).
